@@ -1,3 +1,9 @@
-body {
-  color: red;
+section {
+  background-color: blue;
+}
+
+/* Makes search button sit below input box for city search  */
+.input-group {
+  display: flex;
+  flex-direction: column;
 }
