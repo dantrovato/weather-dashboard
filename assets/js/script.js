@@ -25,14 +25,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getCoordinates(city) {
-    let lat = 51.5085;
-    let lon = -0.1257;
-    // const queryUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     const coordinatesUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
 
     fetch(coordinatesUrl)
       .then((response) => response.json())
-      .then((res) => console.log(res));
+      .then((city) => {
+        const lat = city[0].lat;
+        const lon = city[0].lon;
+        return [lat, lon];
+      })
+      .then(([lat, lon]) => {
+        const queryUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+        return fetch(queryUrl);
+      })
+      .then((response) => response.json())
+      .then((city) => console.log(city));
   }
 
   // When the Search button is clicked or entered is pressed we...
