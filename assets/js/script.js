@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function populateTodayDiv([cityName, date, temperature, wind, humidity]) {
+    today.textContent = "";
     const cityData = [
       `${cityName} (${date})`,
       `Temp: ${temperature.toFixed(2)} ℃`,
