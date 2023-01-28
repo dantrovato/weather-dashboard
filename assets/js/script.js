@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBtn = document.querySelector("#search-button");
   const cities = document.querySelector("#cities");
   const today = document.querySelector("#today");
-  const fiveDayDiv = document.querySelector("#forecast");
+  const fiveDayDiv = document.querySelector("#five-days");
   ///////////////////////////
 
   // Api key and query url
@@ -51,14 +51,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (indexes.includes(idx)) return result;
     });
 
-    list.forEach((item) => {
-      const cardHTML = `<div class="card" style="width: 12rem">
-                      <div class="card-body">yo</div>
+    list.forEach((day) => {
+      const date = day.dt_txt.split(" ")[0];
+      const temperature = day.main.temp - 273.15; // - 273.15 converts it into celsius
+      const wind = day.wind.speed;
+      const humidity = day.main.humidity;
+      const cardHTML = `<div class="card" style="width: 9rem">
+                      <div class="card-body">
+                      <p>${date}</p>
+                      <p>Temp: ${temperature.toFixed(2)} ℃</p>
+                      <p>Wind: ${wind} KPH</p>
+                      <p>Humidity: ${humidity}%</p>
+                      </div>
                     </div>`;
       const div = document.createElement("div");
       div.innerHTML = cardHTML;
       fiveDayDiv.appendChild(div);
-      // console.log(fiveDayDiv);
     });
   }
 

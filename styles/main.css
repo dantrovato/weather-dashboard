@@ -20,3 +20,8 @@ button,
 button {
   margin-top: 1rem;
 }
+
+#five-days {
+  display: flex;
+  justify-content: space-between;
+}
