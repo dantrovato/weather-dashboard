@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const li = document.createElement("li");
     const button = document.createElement("button");
     const city = input.value[0].toUpperCase() + input.value.substring(1);
+    input.value = "";
     // Give the button the capitalised value of the input as text
     button.textContent = city;
 
