@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.querySelector("#search-input");
   const searchBtn = document.querySelector("#search-button");
   const ul = document.querySelector("#cities");
+  const today = document.querySelector("#today");
   ///////////////////////////
 
   // Api key and query url
@@ -39,7 +40,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return fetch(queryUrl);
       })
       .then((response) => response.json())
-      .then((city) => console.log(city));
+      .then((city) => getCityInfo(city));
+  }
+
+  function getCityInfo(cityData) {
+    // grab every 8th
+    // console.log(Array.isArray(city.list));
+    // console.log(city.list[0].dt_txt);
+    const cityName = cityData.city.name;
+    const date = cityData.list[0].dt_txt.split(" ")[0];
+    const temperature = cityData.list[0].main.temp;
+    const wind = cityData.list[0].wind.speed;
+    const humidity = cityData.list[0].main.humidity;
+    populateTodayDiv([cityName, date, temperature, wind, humidity]);
+  }
+
+  function populateTodayDiv(...args) {
+    args.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      today.appendChild(li);
+    });
   }
 
   // When the Search button is clicked or entered is pressed we...

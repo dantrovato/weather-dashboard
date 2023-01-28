@@ -1,9 +1,22 @@
 section {
-  background-color: blue;
+  border: 1px solid black;
+  min-height: 8rem;
 }
 
 /* Makes search button sit below input box for city search  */
 .input-group {
   display: flex;
   flex-direction: column;
+  min-width: 100%;
+}
+
+button,
+#search-input,
+#search-button {
+  width: 100%;
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 1rem;
 }
