@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function populateFiveDayDiv(cityData) {
+    // Clear the div from the previous 5 days
+    fiveDayDiv.innerHTML = "";
     // The list gives 40 results 3 hours apart so we grab every 7th result to make sure they're all at the same time one day apart
     const indexes = [0, 8, 16, 24, 32];
     const list = cityData.list.filter((result, idx) => {
