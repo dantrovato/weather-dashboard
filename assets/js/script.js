@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBtn = document.querySelector("#search-button");
   const cities = document.querySelector("#cities");
   const today = document.querySelector("#today");
+  const fiveDayDiv = document.querySelector("#forecast");
   ///////////////////////////
 
   // Api key and query url
@@ -43,6 +44,24 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((city) => getCityInfo(city));
   }
 
+  function populateFiveDayDiv(cityData) {
+    // The list gives 40 results 3 hours apart so we grab every 7th result to make sure they're all at the same time one day apart
+    const indexes = [0, 8, 16, 24, 32];
+    const list = cityData.list.filter((result, idx) => {
+      if (indexes.includes(idx)) return result;
+    });
+
+    list.forEach((item) => {
+      const cardHTML = `<div class="card" style="width: 12rem">
+                      <div class="card-body">yo</div>
+                    </div>`;
+      const div = document.createElement("div");
+      div.innerHTML = cardHTML;
+      fiveDayDiv.appendChild(div);
+      // console.log(fiveDayDiv);
+    });
+  }
+
   function getCityInfo(cityData) {
     // grab every 8th
     // console.log(Array.isArray(city.list));
@@ -53,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wind = cityData.list[0].wind.speed;
     const humidity = cityData.list[0].main.humidity;
     populateTodayDiv([cityName, date, temperature, wind, humidity]);
+    populateFiveDayDiv(cityData);
   }
 
   function populateTodayDiv([cityName, date, temperature, wind, humidity]) {
