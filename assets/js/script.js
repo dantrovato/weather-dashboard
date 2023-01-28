@@ -49,19 +49,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // console.log(city.list[0].dt_txt);
     const cityName = cityData.city.name;
     const date = cityData.list[0].dt_txt.split(" ")[0];
-    const temperatureInCelsius = cityData.list[0].main.temp - 273.15;
+    const temperature = cityData.list[0].main.temp - 273.15; // - 273.15 converts it into celsius
     const wind = cityData.list[0].wind.speed;
     const humidity = cityData.list[0].main.humidity;
     populateTodayDiv([cityName, date, temperature, wind, humidity]);
   }
 
   function populateTodayDiv([cityName, date, temperature, wind, humidity]) {
-    const cityData = [`${cityName} (${date})`, temperature, wind, humidity];
+    const cityData = [
+      `${cityName} (${date})`,
+      `Temp: ${temperature.toFixed(2)} ℃`,
+      `Wind: ${wind} KPH`,
+      `Humidity: ${humidity}%`,
+    ];
     cityData.forEach((item) => {
       console.log(item);
-      const li = document.createElement("li");
-      li.textContent = item;
-      today.appendChild(li);
+      const p = document.createElement("p");
+      p.textContent = item;
+      today.appendChild(p);
     });
   }
 
