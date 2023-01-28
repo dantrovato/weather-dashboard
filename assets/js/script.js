@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Grab element of interest
+  // Grab elements of interest
   const input = document.querySelector("#search-input");
   const searchBtn = document.querySelector("#search-button");
-  const ul = document.querySelector("#cities");
+  const cities = document.querySelector("#cities");
   const today = document.querySelector("#today");
   ///////////////////////////
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Append button to li and li to ul
     li.appendChild(button);
-    ul.appendChild(li);
+    cities.appendChild(li);
 
     getCoordinates(city);
   }
@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
       `Humidity: ${humidity}%`,
     ];
     cityData.forEach((item) => {
-      console.log(item);
       const p = document.createElement("p");
       p.textContent = item;
       today.appendChild(p);
@@ -80,5 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // desc:
     // - make fetch request and grab the response
     // The lat and lon coordinates are needed for the main fetch request. The API doesn't accept the name of the city in its query
+  });
+
+  // Any click on any of the cities on the left panel sends a fresh fetch request to update the #today div
+  cities.addEventListener("click", (event) => {
+    if (event.target.tagName === "BUTTON") {
+      const city = event.target.textContent;
+      getCoordinates(city);
+    }
   });
 });
