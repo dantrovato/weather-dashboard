@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getCoordinates(city) {
-    const coordinatesUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
+    const coordinatesUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
 
     fetch(coordinatesUrl)
       .then((response) => response.json())
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return [lat, lon];
       })
       .then(([lat, lon]) => {
-        const queryUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+        const queryUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
         return fetch(queryUrl);
       })
       .then((response) => response.json())
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     list.forEach((day) => {
       const date = formatDate(day);
       const iconCode = day.weather[0].icon;
-      const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
+      const icon = `<img src="https://openweathermap.org/img/w/${iconCode}.png"`;
       const kelvin = day.main.temp;
       const temperature = getCelsius(kelvin);
       const wind = day.wind.speed;
