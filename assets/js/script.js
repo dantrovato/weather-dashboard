@@ -1,3 +1,12 @@
+// done:
+// Fix the five day forcast starting from tomorrow instead of today
+// Refactor populateTodayDiv() function and make city and date bold
+//
+// todo:
+// Persist data between refreshes
+// Get icons
+// Style Search for a City
+// Change dashes in date to forward slashes
 document.addEventListener("DOMContentLoaded", () => {
   // Grab elements of interest
   const input = document.querySelector("#search-input");
@@ -49,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the div from the previous 5 days
     fiveDayDiv.innerHTML = "";
     // The list gives 40 results 3 hours apart so we grab every 7th result to make sure they're all at the same time one day apart
-    const indexes = [0, 8, 16, 24, 32];
+    const indexes = [8, 16, 24, 32, 40];
     const list = cityData.list.filter((result, idx) => {
       if (indexes.includes(idx)) return result;
     });
@@ -59,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const temperature = day.main.temp - 273.15; // - 273.15 converts it into celsius
       const wind = day.wind.speed;
       const humidity = day.main.humidity;
-      const cardHTML = `<div class="card" style="width: 9rem">
+      const cardHTML = `<div class="card" style="width: 11.5rem">
                       <div class="card-body">
                       <p>${date}</p>
                       <p>Temp: ${temperature.toFixed(2)} ℃</p>
@@ -87,18 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function populateTodayDiv([cityName, date, temperature, wind, humidity]) {
-    today.textContent = "";
-    const cityData = [
-      `${cityName} (${date})`,
-      `Temp: ${temperature.toFixed(2)} ℃`,
-      `Wind: ${wind} KPH`,
-      `Humidity: ${humidity}%`,
-    ];
-    cityData.forEach((item) => {
-      const p = document.createElement("p");
-      p.textContent = item;
-      today.appendChild(p);
-    });
+    const html = `<p id="city-and-date" class="pad">${cityName} (${date})</p>
+                  <p class="pad">Temp: ${temperature.toFixed(2)} ℃</p>
+                  <p class="pad">Wind: ${wind} KPH</p>
+                  <p class="pad">Humidity: ${humidity}%</p>`;
+    today.innerHTML = html;
   }
 
   // When the Search button is clicked or entered is pressed we...

@@ -1,4 +1,4 @@
-section {
+#today {
   border: 1px solid black;
   min-height: 8rem;
 }
@@ -24,4 +24,19 @@ button {
 #five-days {
   display: flex;
   justify-content: space-between;
+}
+
+.card-body {
+  background-color: #3a4a57;
+  color: white;
+}
+
+.pad {
+  padding-left: 0.6rem;
+}
+
+#city-and-date,
+#form-heading {
+  font-weight: 700;
+  font-size: 1.8rem;
 }
