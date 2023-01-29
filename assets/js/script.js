@@ -1,15 +1,16 @@
 // done:
+//
 
 // todo:
 
-// Get icons
 // Change dashes in date to forward slashes
-// Make 5-Day Forcast bold
-// Make date in cards bold
+// Reverse order of date
 
 // bonus:
 // Add delete button
 // Add autocomplete to the input
+// Colour header
+// Fine tune positoning
 document.addEventListener("DOMContentLoaded", () => {
   // Grab elements of interest
   const input = document.querySelector("#search-input");
@@ -85,7 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const humidity = day.main.humidity;
       const cardHTML = `<div class="card" style="width: 11.5rem">
                       <div class="card-body">
-                      <p>${date}</p>
+                      <p class="five-day-forcast-date">${date.replace(
+                        /-/g,
+                        "/"
+                      )}</p>
                       <p>${icon}</p>
                       <p>Temp: ${temperature.toFixed(2)} ℃</p>
                       <p>Wind: ${wind} KPH</p>
@@ -124,7 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
     wind,
     humidity,
   ]) {
-    const html = `<p id="city-and-date" class="pad">${cityName} (${date}) ${icon}</p>
+    const html = `<p id="city-and-date" class="pad">${cityName} (${date.replace(
+      /-/g,
+      "/"
+    )}) ${icon}</p>
                   <p class="pad">Temp: ${temperature.toFixed(2)} ℃</p>
                   <p class="pad">Wind: ${wind} KPH</p>
                   <p class="pad">Humidity: ${humidity}%</p>`;
