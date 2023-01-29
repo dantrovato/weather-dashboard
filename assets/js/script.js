@@ -1,13 +1,14 @@
 // done:
-// Get 5 day weather starting at index 7 instead of 8. The reasons are in the comment
-// Store each new city in localStorage
 
 // todo:
-// Persist data between refreshes
+
 // Get icons
 // Change dashes in date to forward slashes
+// Make 5-Day Forcast bold
+// Make date in cards bold
 
 // bonus:
+// Add delete button
 // Add autocomplete to the input
 document.addEventListener("DOMContentLoaded", () => {
   // Grab elements of interest
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Make a button with the name of the city entered in the input
+  // Make a button with the name of the city entered in the input and store it in the localStorage
   function makeButtonForCity() {
     // Create li and button elements
     const li = document.createElement("li");
@@ -77,12 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     list.forEach((day) => {
       const date = day.dt_txt.split(" ")[0];
+      const iconCode = day.weather[0].icon;
+      const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
       const temperature = day.main.temp - 273.15; // - 273.15 converts it into celsius
       const wind = day.wind.speed;
       const humidity = day.main.humidity;
       const cardHTML = `<div class="card" style="width: 11.5rem">
                       <div class="card-body">
                       <p>${date}</p>
+                      <p>${icon}</p>
                       <p>Temp: ${temperature.toFixed(2)} ℃</p>
                       <p>Wind: ${wind} KPH</p>
                       <p>Humidity: ${humidity}%</p>
@@ -98,17 +102,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // grab every 8th
     // console.log(Array.isArray(city.list));
     // console.log(city.list[0].dt_txt);
+
     const cityName = cityData.city.name;
+    const iconCode = cityData.list[0].weather[0].icon;
+    const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
     const date = cityData.list[0].dt_txt.split(" ")[0];
     const temperature = cityData.list[0].main.temp - 273.15; // - 273.15 converts it into celsius
     const wind = cityData.list[0].wind.speed;
     const humidity = cityData.list[0].main.humidity;
-    populateTodayDiv([cityName, date, temperature, wind, humidity]);
+
+    console.log(icon);
+    populateTodayDiv([cityName, date, icon, temperature, wind, humidity]);
     populateFiveDayDiv(cityData);
   }
 
-  function populateTodayDiv([cityName, date, temperature, wind, humidity]) {
-    const html = `<p id="city-and-date" class="pad">${cityName} (${date})</p>
+  function populateTodayDiv([
+    cityName,
+    date,
+    icon,
+    temperature,
+    wind,
+    humidity,
+  ]) {
+    const html = `<p id="city-and-date" class="pad">${cityName} (${date}) ${icon}</p>
                   <p class="pad">Temp: ${temperature.toFixed(2)} ℃</p>
                   <p class="pad">Wind: ${wind} KPH</p>
                   <p class="pad">Humidity: ${humidity}%</p>`;
@@ -116,14 +132,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function populateCitiesFromLocalStorage() {
-    console.log(localStorage);
-    // get array of citiesKeys from localStorage and for each one make button
+    // Get array of citiesKeys from localStorage
     const citiesKeys = Object.keys(localStorage).filter((key) =>
       key.includes("cityNameForWeatherApp-")
     );
 
+    // With the citiesKeys we got above get an array of the city names
     const citiesNames = citiesKeys.map((key) => localStorage[key]);
 
+    // Loop over the names and for each one make button and apped it to the cities div under the search button
     citiesNames.forEach((city) => {
       // Create li and button elements
       const li = document.createElement("li");
@@ -135,9 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // Append button to li and li to ul
       li.appendChild(button);
       cities.appendChild(li);
-
-      // getCoordinates(city);
-      // storeCityInLocalStorage(city);
     });
   }
 
@@ -145,11 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
   searchBtn.addEventListener("click", (event) => {
     // Stop the form from submitting
     event.preventDefault();
-    // Make a button with the name of the city entered in the input
+    // Make a button with the name of the city entered in the input and store it in the localStorage
     makeButtonForCity();
-    // desc:
-    // - make fetch request and grab the response
-    // The lat and lon coordinates are needed for the main fetch request. The API doesn't accept the name of the city in its query
   });
 
   // Any click on any of the cities on the left panel sends a fresh fetch request to update the #today div
