@@ -1,12 +1,14 @@
 // done:
-// Fix the five day forcast starting from tomorrow instead of today
-// Refactor populateTodayDiv() function and make city and date bold
-//
+// Get 5 day weather starting at index 7 instead of 8. The reasons are in the comment
+// Store each new city in localStorage
+
 // todo:
 // Persist data between refreshes
 // Get icons
-// Style Search for a City
 // Change dashes in date to forward slashes
+
+// bonus:
+// Add autocomplete to the input
 document.addEventListener("DOMContentLoaded", () => {
   // Grab elements of interest
   const input = document.querySelector("#search-input");
@@ -18,6 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Api key and query url
   const apiKey = "6ffec2ccc0dfbdef7e5da808207b9287";
+
+  // If the localStorage doesn't include the city it grabs and stores it
+  // It would look like this: cityNameForWeatherApp-London: 'London'
+  function storeCityInLocalStorage(city) {
+    if (localStorage[`cityNameForWeatherApp-${city}`] !== city) {
+      localStorage[`cityNameForWeatherApp-${city}`] = city;
+    }
+  }
 
   // Make a button with the name of the city entered in the input
   function makeButtonForCity() {
@@ -34,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cities.appendChild(li);
 
     getCoordinates(city);
+    storeCityInLocalStorage(city);
   }
 
   function getCoordinates(city) {
@@ -58,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the div from the previous 5 days
     fiveDayDiv.innerHTML = "";
     // The list gives 40 results 3 hours apart so we grab every 7th result to make sure they're all at the same time one day apart
-    const indexes = [8, 16, 24, 32, 40];
+    // I also changed the indexes array below to start at 7 instead of 8 because there is no element at index 40
+    const indexes = [7, 15, 23, 31, 39];
     const list = cityData.list.filter((result, idx) => {
       if (indexes.includes(idx)) return result;
     });
@@ -103,6 +115,32 @@ document.addEventListener("DOMContentLoaded", () => {
     today.innerHTML = html;
   }
 
+  function populateCitiesFromLocalStorage() {
+    console.log(localStorage);
+    // get array of citiesKeys from localStorage and for each one make button
+    const citiesKeys = Object.keys(localStorage).filter((key) =>
+      key.includes("cityNameForWeatherApp-")
+    );
+
+    const citiesNames = citiesKeys.map((key) => localStorage[key]);
+
+    citiesNames.forEach((city) => {
+      // Create li and button elements
+      const li = document.createElement("li");
+      const button = document.createElement("button");
+
+      input.value = "";
+      button.textContent = city;
+
+      // Append button to li and li to ul
+      li.appendChild(button);
+      cities.appendChild(li);
+
+      // getCoordinates(city);
+      // storeCityInLocalStorage(city);
+    });
+  }
+
   // When the Search button is clicked or entered is pressed we...
   searchBtn.addEventListener("click", (event) => {
     // Stop the form from submitting
@@ -121,4 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
       getCoordinates(city);
     }
   });
+
+  populateCitiesFromLocalStorage();
 });
