@@ -10,14 +10,14 @@ When a city is entered a button is created below the search button and can later
 
 Below are some screenshots
 
-### Landing page on a first visit
+Landing page on a first visit
 
-[!Screenhshot of an app](./assets/images/screenshot1.png)
+![Screenshot of app](./assets/images/screenshot1.png)
 
-### After first city is entered
+After first city is entered
 
-[!After first city is entered](./assets/images/screenshot2.png)
+![Screenshot of app](./assets/images/screenshot2.png)
 
-### After second city is entered
+After second city is entered
 
-[!After second city is entered](./assets/images/screenshot3.png)
+![Screenshot of app](./assets/images/screenshot3.png)
