@@ -3,9 +3,6 @@
 
 // todo:
 
-// Change dashes in date to forward slashes
-// Reverse order of date
-
 // bonus:
 // Add delete button
 // Add autocomplete to the input
@@ -78,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     list.forEach((day) => {
-      const date = day.dt_txt.split(" ")[0];
+      const date = formatDate(day);
       const iconCode = day.weather[0].icon;
       const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
       const temperature = day.main.temp - 273.15; // - 273.15 converts it into celsius
@@ -102,6 +99,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Swaps - for / and reorders year month and day
+  function formatDate(day) {
+    const date = day.dt_txt.split(" ")[0];
+    const regexp = /(\d+)-(\d+)-(\d+)/;
+    const matches = date.match(regexp);
+    const formattedDate = `${matches[3]}/${matches[2]}/${matches[1]}`;
+    console.log(formattedDate);
+    return formattedDate;
+  }
+
   function getCityInfo(cityData) {
     // grab every 8th
     // console.log(Array.isArray(city.list));
@@ -110,12 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const cityName = cityData.city.name;
     const iconCode = cityData.list[0].weather[0].icon;
     const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
-    const date = cityData.list[0].dt_txt.split(" ")[0];
+    const date = formatDate(cityData.list[0]);
     const temperature = cityData.list[0].main.temp - 273.15; // - 273.15 converts it into celsius
     const wind = cityData.list[0].wind.speed;
     const humidity = cityData.list[0].main.humidity;
-
-    console.log(icon);
     populateTodayDiv([cityName, date, icon, temperature, wind, humidity]);
     populateFiveDayDiv(cityData);
   }
@@ -128,10 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     wind,
     humidity,
   ]) {
-    const html = `<p id="city-and-date" class="pad">${cityName} (${date.replace(
-      /-/g,
-      "/"
-    )}) ${icon}</p>
+    const html = `<p id="city-and-date" class="pad">${cityName} (${date}) ${icon}</p>
                   <p class="pad">Temp: ${temperature.toFixed(2)} ℃</p>
                   <p class="pad">Wind: ${wind} KPH</p>
                   <p class="pad">Humidity: ${humidity}%</p>`;
