@@ -64,6 +64,18 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((city) => getCityInfo(city));
   }
 
+  function formatCard(date, icon, temperature, wind, humidity) {
+    return `<div class="card" style="width: 11.5rem">
+              <div class="card-body">
+              <p class="five-day-forcast-date">${date.replace(/-/g, "/")}</p>
+              <p>${icon}</p>
+              <p>Temp: ${temperature.toFixed(2)} ℃</p>
+              <p>Wind: ${wind} KPH</p>
+              <p>Humidity: ${humidity}%</p>
+              </div>
+            </div>`;
+  }
+
   function populateFiveDayDiv(cityData) {
     // Clear the div from the previous 5 days
     fiveDayDiv.innerHTML = "";
@@ -81,18 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const temperature = day.main.temp - 273.15; // - 273.15 converts it into celsius
       const wind = day.wind.speed;
       const humidity = day.main.humidity;
-      const cardHTML = `<div class="card" style="width: 11.5rem">
-                      <div class="card-body">
-                      <p class="five-day-forcast-date">${date.replace(
-                        /-/g,
-                        "/"
-                      )}</p>
-                      <p>${icon}</p>
-                      <p>Temp: ${temperature.toFixed(2)} ℃</p>
-                      <p>Wind: ${wind} KPH</p>
-                      <p>Humidity: ${humidity}%</p>
-                      </div>
-                    </div>`;
+      const cardHTML = formatCard(date, icon, temperature, wind, humidity);
       const div = document.createElement("div");
       div.innerHTML = cardHTML;
       fiveDayDiv.appendChild(div);
@@ -105,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const regexp = /(\d+)-(\d+)-(\d+)/;
     const matches = date.match(regexp);
     const formattedDate = `${matches[3]}/${matches[2]}/${matches[1]}`;
-    console.log(formattedDate);
     return formattedDate;
   }
 
