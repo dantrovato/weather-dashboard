@@ -90,7 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const date = formatDate(day);
       const iconCode = day.weather[0].icon;
       const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
-      const temperature = day.main.temp - 273.15; // - 273.15 converts it into celsius
+      const kelvin = day.main.temp;
+      const temperature = getCelsius(kelvin);
       const wind = day.wind.speed;
       const humidity = day.main.humidity;
       const cardHTML = formatCard(date, icon, temperature, wind, humidity);
@@ -109,6 +110,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return formattedDate;
   }
 
+  function getCelsius(kelvin) {
+    // - 273.15 converts it into celsius
+    return kelvin - 273.15;
+  }
+
   function getCityInfo(cityData) {
     // grab every 8th
     // console.log(Array.isArray(city.list));
@@ -118,7 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const iconCode = cityData.list[0].weather[0].icon;
     const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
     const date = formatDate(cityData.list[0]);
-    const temperature = cityData.list[0].main.temp - 273.15; // - 273.15 converts it into celsius
+    const kelvin = cityData.list[0].main.temp;
+    const temperature = getCelsius(kelvin);
     const wind = cityData.list[0].wind.speed;
     const humidity = cityData.list[0].main.humidity;
     populateTodayDiv([cityName, date, icon, temperature, wind, humidity]);
