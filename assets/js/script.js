@@ -8,6 +8,8 @@
 // Add autocomplete to the input
 // Colour header
 // Fine tune positoning
+// Add functionality to avoid adding same city twice
+
 document.addEventListener("DOMContentLoaded", () => {
   // Grab elements of interest
   const input = document.querySelector("#search-input");
