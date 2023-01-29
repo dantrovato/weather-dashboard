@@ -116,10 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getCityInfo(cityData) {
-    // grab every 8th
-    // console.log(Array.isArray(city.list));
-    // console.log(city.list[0].dt_txt);
-
     const cityName = cityData.city.name;
     const iconCode = cityData.list[0].weather[0].icon;
     const icon = `<img src="http://openweathermap.org/img/w/${iconCode}.png"`;
@@ -128,18 +124,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const temperature = getCelsius(kelvin);
     const wind = cityData.list[0].wind.speed;
     const humidity = cityData.list[0].main.humidity;
-    populateTodayDiv([cityName, date, icon, temperature, wind, humidity]);
+    populateTodayDiv(cityName, date, icon, temperature, wind, humidity);
     populateFiveDayDiv(cityData);
   }
 
-  function populateTodayDiv([
-    cityName,
-    date,
-    icon,
-    temperature,
-    wind,
-    humidity,
-  ]) {
+  function populateTodayDiv(cityName, date, icon, temperature, wind, humidity) {
     const html = `<p id="city-and-date" class="pad">${cityName} (${date}) ${icon}</p>
                   <p class="pad">Temp: ${temperature.toFixed(2)} ℃</p>
                   <p class="pad">Wind: ${wind} KPH</p>
@@ -171,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // When the Search button is clicked or entered is pressed we...
+  // When the Search button is clicked or enter is pressed we...
   searchBtn.addEventListener("click", (event) => {
     // Stop the form from submitting
     event.preventDefault();
